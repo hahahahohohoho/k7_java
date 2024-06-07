@@ -1,0 +1,13 @@
+package edu;
+
+public class test11 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int num = -42;
+		String binamValue = Integer.toBinaryString(num);
+		System.out.println(binamValue);
+
+	}
+
+}
