@@ -1,1 +1,0 @@
-INDEX VERSION 1.134+C:\SS\java_works\자바예제\edu\src\com\ruby\java\.metadata\.plugins\org.eclipse.jdt.core

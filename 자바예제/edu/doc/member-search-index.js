@@ -1,1 +1,0 @@
-memberSearchIndex = [{"p":"edu","c":"Test18","l":"sum(int, int)","url":"sum(int,int)"},{"p":"edu","c":"Test18","l":"Test18()","url":"%3Cinit%3E()"}]
