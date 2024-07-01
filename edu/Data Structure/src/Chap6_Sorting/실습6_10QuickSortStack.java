@@ -1,8 +1,9 @@
 package Chap6_Sorting;
 
-//퀵 정렬(비재귀 버전) - 교재 버젼으로 stack을 2개 사용하는 문제가 있다 
+//퀵 정렬(비재귀 버전) - 교재 버젼으로 stack을 2개 사용하는 문제가 있다
 
 import java.util.Scanner;
+import java.util.Stack;
 
 public class 실습6_10QuickSortStack {
  //--- 배열 요소 a[idx1]와 a[idx2]의 값을 교환 ---//
@@ -12,9 +13,9 @@ public class 실습6_10QuickSortStack {
 
  //--- 퀵 정렬(비재귀 버전)---//
  static void quickSort(int[] a, int left, int right) {
+//	 Stack<Integer> lstack = new Stack<>();
      IntStack lstack = new IntStack(right - left + 1);
      IntStack rstack = new IntStack(right - left + 1);
-
      lstack.push(left);
      rstack.push(right);
 

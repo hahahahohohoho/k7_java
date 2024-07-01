@@ -1,7 +1,8 @@
 // 퀵 정렬(비재귀 버전)
 package Chap6_Sorting;
+import Chap6_Sorting.Stack3.EmptyGenericStackException;
 //교재 232 실습 6-10을 수정
-import Chap6_Sorting.StackSorting.Stack3;
+import Chap6_Sorting.실습4_2_1객체스택;
 
 //class Point {
 //	private int ix;
@@ -39,48 +40,47 @@ public class 실습6_10_1QuickSort2_개량 {
 	}
 
 	// --- 퀵 정렬(비재귀 버전)---//
-	static void quickSort(int[] a, int left, int right) {
-
-		Stack3<Point> st = new Stack3<>(10);
-		Point pt = new Point(left, right);
+	static void quickSort(int[] a, int left, int right) throws EmptyGenericStackException {
+		Stack3 st = new Stack3(10);
+		Point2 pt = new Point2(left, right);
 		st.push(pt);
 		while (!st.isEmpty()) {
-			Point rt = st.pop();
-			int pl = left = rt.getX();
-			int pr = right = rt.getY();
-			int mp = a[(pr + pl) / 2];
+			Point2 rt = st.pop();
+			int pl = left = rt.getIx();
+			int pr = right = rt.getIy();
+			int x = a[(pr + pl) / 2];
 
 			do {
-				while (a[pl] < mp)
-					pl++;
-				while (a[pr] > mp)
-					pr--;
+				while (a[pl] < x) pl++;
+				while (a[pr] > x) pr--;
 				if (pl <= pr)
 					swap(a, pl++, pr--);
 			} while (pl <= pr);
+			
+			
 			System.out.println("left = " + left + "right = " + right);
 			for (int i = left; i <= right; i++)
 				System.out.print(" " + a[i]);
 			System.out.println();
 			if (left < pr) {
-				Point pt2 = new Point(left, pr);
+				Point2 pt2 = new Point2(left, pr);
 				st.push(pt2);
-
 			}
 			if (pl < right) {
-				Point pt2 = new Point(pl, right);
+				Point2 pt2 = new Point2(pl, right);
 				st.push(pt2);
-
 			}
-
 		}
 	}
+
 	static void showData(int[] d) {
 		System.out.println();
 	    for (int i = 0; i < d.length; i++)
 	        System.out.print(d[i] + " ");
+	    System.out.println();
 	}
-	public static void main(String[] args) {
+
+	public static void main(String[] args) throws EmptyGenericStackException {
 		int nx = 10;
 		int[] x = new int[10];
 		for (int ix = 0; ix < 10; ix++) {

@@ -154,11 +154,11 @@ class Stack4 {
 }
 
 public class Test_QueenEight_구현과제_최종수정본 {
-	public static void EightQueen(int[][] d, int iy) throws EmptyGenericStackException {
+	public static void EightQueen(int[][] d) throws EmptyGenericStackException {
 		int count = 0;// 퀸 배치 갯수
 		int numberSolutions = 0;
 		int ix = 0;
-//		int iy = 0;// 행 ix, 열 iy
+		int iy = 0;// 행 ix, 열 iy
 		Stack4 st = new Stack4(100); // 100개를 저장할 수 있는 스택을 만들고
 		Point p = new Point(ix, iy);// 현 위치를 객체로 만들고
 		d[ix][iy] = 1;// 현 위치에 queen을 넣었다는 표시를 하고
@@ -175,7 +175,6 @@ public class Test_QueenEight_구현과제_최종수정본 {
                 iy = removePoint.getIy();
                 d[ix][iy] = 0; // 퀸이 놓여있던 자리를 비움
                 count--; iy++;
-                continue;
             }
 			iy = nextMove(d, ix, iy); //현재 iy =1, ix= 0
 			if(iy < 0) {
@@ -186,16 +185,15 @@ public class Test_QueenEight_구현과제_최종수정본 {
 				ix = removePoint.getIx();
 				iy = removePoint.getIy();
 				d[ix][iy]=0; count--; iy++;
-				continue;
 				//pop은 물리기 + ix를 증가시켜 queen을 놓을 수 있는지 체크
 			}
 			else{
 				p = new Point(ix, iy);
 				st.push(p);
 				count++;ix++; iy=0;
-				continue;
 			}
 		}
+		System.out.printf("총 해의 개수는 %d입니다.", numberSolutions);
 	}
 
 	    public static boolean checkRow(int[][] d, int crow) { // 배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
@@ -248,8 +246,7 @@ public class Test_QueenEight_구현과제_최종수정본 {
 		    for (int j = col; j < d.length; j++) {
 		        // Check if it's possible to place a queen at (row, j)
 		        if (checkMove(d, row, j)) {
-		            // Place the queen at (row, j)
-		            d[row][j] = 1;
+		        	d[row][j] = 1;	// Place the queen at (row, j)
 		            return j; // Return the column where the queen was placed
 		        }
 		    }
@@ -272,6 +269,6 @@ public class Test_QueenEight_구현과제_최종수정본 {
         for (int i = 0; i < data.length; i++)
             for (int j = 0; j < data[0].length; j++)
                 data[i][j] = 0;
-        EightQueen(data, 0);
+        EightQueen(data);
 	}
 }

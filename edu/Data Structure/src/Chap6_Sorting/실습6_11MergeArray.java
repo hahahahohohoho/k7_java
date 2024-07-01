@@ -21,7 +21,6 @@ class 실습6_11MergeArray {
          c[pc++] = b[pb++];
  }
  static void showData(int[] d) {
-	 System.out.println();
      for (int i = 0; i < d.length; i++)
          System.out.print(d[i] + " ");
      System.out.println();
@@ -37,7 +36,7 @@ class 실습6_11MergeArray {
      merge(a, a.length, b, b.length, c);      // 배열 a와 b를 병합하여 c에 넣어 둠
 
      System.out.println("배열 a와 b를 병합하여 배열 c에 저장했습니다.");
-     System.out.println("배열 a: ");
+     System.out.println("\n배열 a: ");
      showData(a);
      System.out.println();
      System.out.println("배열 b: ");

@@ -48,7 +48,7 @@ public class 실습6_12_1MergeSort정수 {
 
 		MergeSort(x, 0, nx - 1); // 배열 x를 퀵정렬
 
-		System.out.println("오름차순으로 정렬했습니다.");
+		System.out.println("\n오름차순으로 정렬했습니다.");
 		for (int i = 0; i < nx; i++)
 			System.out.print(" " + x[i]);
 	}

@@ -3,14 +3,14 @@ package Chap4_스택과큐;
  * 실습 1번 - 정수 배열 스택
  * 스택을 정수 배열로 구현
  * 예외 처리 코드 이해가 필요
- * 교재 133 - 실습 4-1 소스코드를 읽어보고 가능하면 책을 보지 않고 소스코드 구현완성 노력이 좋다 
+ * 교재 133 - 실습 4-1 소스코드를 읽어보고 가능하면 책을 보지 않고 소스코드 구현완성 노력이 좋다
  */
 
 import java.util.Scanner;
 
 //int형 고정 길이 스택
 
-class IntStack3 {
+class IntStack {
 	private int[] stk; // 스택용 배열
 	private int capacity; // 스택의 크기
 	private int ptr; // 스택 포인터
@@ -30,7 +30,7 @@ class IntStack3 {
 	}
 
 //--- 생성자(constructor) ---//
-	public IntStack3(int maxlen) {
+	public IntStack(int maxlen) {
 		ptr = 0;
 		capacity = maxlen;
 		try {
@@ -49,14 +49,14 @@ class IntStack3 {
 
 //--- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
 	public int pop() throws EmptyIntStackException {
-		if(ptr <= 0) 
+		if(ptr <= 0)
 			throw new EmptyIntStackException("pop: stack is empty");
 		return stk[--ptr];
 	}
 
 //--- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public int peek() throws EmptyIntStackException {
-		if(ptr <= 0) 
+		if(ptr <= 0)
 			throw new EmptyIntStackException("pop: stack is empty");
 		return stk[ptr-1];
 	}
@@ -93,7 +93,7 @@ class IntStack3 {
 	public boolean isFull() {
 		return ptr >= capacity;
 	}
-	
+
 //--- 스택 안의 모든 데이터를 바닥 → 정상 순서로 표시 ---//
 	public void dump() throws EmptyIntStackException{
 		if (ptr <=0) {
@@ -110,7 +110,7 @@ public class 실습4_2정수스택 {
 
 	public static void main(String[] args) {
 		Scanner stdIn = new Scanner(System.in);
-		IntStack3 s = new IntStack3(4); // 최대 64 개를 푸시할 수 있는 스택
+		IntStack s = new IntStack(4); // 최대 64 개를 푸시할 수 있는 스택
 
 		while (true) {
 			System.out.println(); // 메뉴 구분을 위한 빈 행 추가
@@ -129,7 +129,7 @@ public class 실습4_2정수스택 {
 				x = stdIn.nextInt();
 				try {
 					s.push(x);
-				} catch (IntStack3.OverflowIntStackException e) {
+				} catch (IntStack.OverflowIntStackException e) {
 					System.out.println("스택이 가득 찼습니다." + e.getMessage());
 //					e.printStackTrace();
 				}
@@ -139,7 +139,7 @@ public class 실습4_2정수스택 {
 				try {
 					x = s.pop();
 					System.out.println("팝한 데이터는 " + x + "입니다.");
-				} catch (IntStack3.EmptyIntStackException e) {
+				} catch (IntStack.EmptyIntStackException e) {
 					System.out.println("스택이 비어있습니다." + e.getMessage());
 //					e.printStackTrace();
 				}
@@ -149,7 +149,7 @@ public class 실습4_2정수스택 {
 				try {
 					x = s.peek();
 					System.out.println("피크한 데이터는 " + x + "입니다.");
-				} catch (IntStack3.EmptyIntStackException e) {
+				} catch (IntStack.EmptyIntStackException e) {
 					System.out.println("스택이 비어있습니다." + e.getMessage());
 //					e.printStackTrace();
 				}
@@ -158,7 +158,7 @@ public class 실습4_2정수스택 {
 			case 4: // 덤프
 				try {
 					s.dump();
-				} catch (IntStack3.EmptyIntStackException e) {
+				} catch (IntStack.EmptyIntStackException e) {
 					System.out.println("스택이 비어있습니다." + e.getMessage());
 //					e.printStackTrace();
 				}

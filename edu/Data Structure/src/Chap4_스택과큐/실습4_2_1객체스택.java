@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import Chap4_스택과큐.IntStack3.EmptyIntStackException;
+import Chap4_스택과큐.IntStack.EmptyIntStackException;
 import Chap4_스택과큐.objectStack.EmptyGenericStackException;
 class Point2 {
 	private int ix;
