@@ -8,12 +8,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 class TreeNode5 {
-	TreeNode5 LeftChild;
+	TreeNode5 lChild;
 	int data;
-	TreeNode5 RightChild;
+	TreeNode5 rChild;
 
 	public TreeNode5() {
-		LeftChild = RightChild = null;
+		lChild = rChild = null;
+	}
+
+	public TreeNode5(int x) {
+		// TODO Auto-generated constructor stub
+		data = x;
 	}
 }
 
@@ -34,7 +39,6 @@ class ObjectStack5{
 	}
 
     private List<TreeNode5> data;  // list를 사용: 배열은 크기를 2배로 늘리는 작업 필요
-	//private List<T> data;
 	private int capacity; // 스택의 크기
 	private int top; // 스택 포인터
 
@@ -118,6 +122,8 @@ class ObjectStack5{
 		}
 	}
 }
+
+
 //정수를 저정하는 이진트리 만들기 실습
 class ObjectQueue5 {
     private TreeNode5[] que;//큐는 배열로 구현
@@ -232,20 +238,34 @@ class Tree5 {
 		root = null;
 	}
 
-	TreeNode5 inorderSucc(TreeNode5 current) {  //중위순회 계승자 구하기
-		TreeNode5 temp = current.RightChild;
-		if (current.RightChild != null)
-			while (temp.LeftChild != null)
-				temp = temp.LeftChild;
+	TreeNode5 inorderSucc(TreeNode5 current) {  //중위순회 계승자 구하기, current에 가장 가까운 값 구하기
+		TreeNode5 temp = current.rChild;
+		if (current.rChild != null)
+			while (temp.lChild != null)
+				temp = temp.lChild;
 		System.out.println("inordersucc:: temp.data = "+temp.data);
 		return temp;
 	}
+	TreeNode5 inparent(TreeNode5 current) {  //중위순회 계승자 구하기, current에 가장 가까운 값 구하기
+		TreeNode5 parent = null;
+		TreeNode5 temp = current.rChild;
+		if (current.rChild != null)
+			while (temp.lChild != null)
+				parent = temp;
+				temp = temp.lChild;
+		return parent;
+	}
 
 	boolean isLeafNode(TreeNode5 current) { //끝단 노드
-		if (current.LeftChild == null && current.RightChild == null)
+		if (current.lChild == null && current.rChild == null)
 			return true;
 		else
 			return false;
+	}
+
+	boolean isOneLeaf(TreeNode5 current) {
+		if((current.lChild != null & current.rChild == null) || (current.lChild == null & current.rChild != null)) return true;
+		else return false;
 	}
 
 	void inorder() {
@@ -262,29 +282,29 @@ class Tree5 {
 
 	void inorder(TreeNode5 CurrentNode) {
 		if (CurrentNode != null) {
-			inorder(CurrentNode.LeftChild);
+			inorder(CurrentNode.lChild);
 			System.out.print(" " + CurrentNode.data);
-			inorder(CurrentNode.RightChild);
+			inorder(CurrentNode.rChild);
 		}
 	}
 
 	void preorder(TreeNode5 CurrentNode) {
 		if (CurrentNode != null) {
 			System.out.print(CurrentNode.data + " ");
-			preorder(CurrentNode.LeftChild);
-			preorder(CurrentNode.RightChild);
+			preorder(CurrentNode.lChild);
+			preorder(CurrentNode.rChild);
 		}
 	}
 
 	void postorder(TreeNode5 CurrentNode) {
 		if (CurrentNode != null) {
-			postorder(CurrentNode.LeftChild);
-			postorder(CurrentNode.RightChild);
+			postorder(CurrentNode.lChild);
+			postorder(CurrentNode.rChild);
 			System.out.print(CurrentNode.data + " ");
 		}
 	}
 
-	void NonrecInorder()//void Tree5::inorder(TreeNode5 *CurrentNode)와 비교
+	void NonrecInorder()//void Tree5::inorder(TreeNode5 *CurrentNode)와 비교 // 재귀함수 없이 중위 순회 하기
 	//stack을 사용한 inorder 출력
 	{
 		ObjectStack5 s = new ObjectStack5(20);
@@ -292,7 +312,7 @@ class Tree5 {
 		while (true) {
 			while (CurrentNode != null) {
 				s.push(CurrentNode);
-				CurrentNode = CurrentNode.LeftChild;
+				CurrentNode = CurrentNode.lChild;
 			}
 			if (!s.isEmpty()) {
 				try {
@@ -302,13 +322,14 @@ class Tree5 {
 					e.printStackTrace();
 				}
 				System.out.println(" " + CurrentNode.data);
-				CurrentNode = CurrentNode.RightChild;
+				CurrentNode = CurrentNode.rChild;
 			}
 			else break;
 		}
 	}
 	void levelOrder() //level 별로 출력한다. level이 증가하면 다음줄에 출력한다
 	//난이도: 최상급 구현
+	/* 구현 필요 */
 	{
 		ObjectQueue5 q = new ObjectQueue5(20);
 		Queue<Integer> que = new LinkedList<>();
@@ -321,21 +342,85 @@ class Tree5 {
 
 	boolean insert(int x) {// binary search tree를 만드는 입력 : left subtree < 노드 x < right subtree
 		//inorder traversal시에 정렬된 결과가 나와야 한다
-		TreeNode5 p = root;
-		TreeNode5 q = null;
-
+		TreeNode5 current = root;
+		TreeNode5 parent = null;
+		TreeNode5 newNode = new TreeNode5(x);
+		if(root == null) {
+			root = newNode;
+		}else {
+			while(true) {
+				parent = current;
+				if(x < current.data) {// 해당 노드보다 값이 작을 때 왼쪽
+					current = current.lChild;
+					if(current == null) { // 더이상 자식 노드가 없을 때, 즉 삽입 할 수 있는 때
+						parent.lChild = newNode;
+						return true;
+					}else if(current == newNode) return false;
+				} else { // 해당노드보다 클 경우 오른 쪽
+					current = current.rChild;
+					if(current == null) {
+						parent.rChild = newNode;
+						return true;
+					}else if(current == newNode) return false;
+				}
+			}
+		}
 		return true;
 	}
 
 	boolean delete(int num) {//binary search tree에서 임의 값을 갖는 노드를 찾아 삭제한다.
 		//삭제 대상이 leaf node인 경우, non-leaf node로 구분하여 구현한다
-		TreeNode5 p = root, q = null, parent = null;
-		int branchMode = 0; // 1은 left, 2는 right
-		if (root == null)
-			return false;
-
-		return false;
-
+		TreeNode5 p = root, current = root, parent = null;
+//		int branchMode = 0; // 1은 left, 2는 right
+		if (root == null) return false;
+		/* 구현 필요 */
+		while (current.data == num) {
+			if (current.data < num) {
+				parent = current;
+				current = current.lChild;
+			}else {
+				parent = current;
+				current = current.rChild;
+			}
+			if(current==null) return false;
+		}
+		// 1. 자식노드가 없을 때
+		if(isLeafNode(current)) {
+			if(parent.data < current.data ) parent.rChild = null;
+			else parent.lChild = null;
+			return true;
+		} else if(isOneLeaf(current)) {// 2. 자식 노드가 하나 있을 때;
+			if(parent.data < current.data) {
+				if(current.rChild != null) parent.rChild = current.rChild;
+				else parent.rChild = current.lChild;
+				return true;
+			}else {
+				if(current.rChild != null) parent.lChild = current.rChild;
+				else parent.lChild = current.lChild;
+				return true;
+			}
+		} else {
+			TreeNode5 temp = inorderSucc(current);
+			TreeNode5 temParent = inparent(current);
+			current.data = temp.data;
+			if (isLeafNode(temp)) {
+				if(temParent.data < temp.data ) {
+					temParent.rChild = null;
+					return true;
+				}else {
+					temParent.lChild = null;
+					return true;
+				}
+			}else {
+				if(temp.data < temParent.data) {
+					temParent.lChild = temp.rChild;
+					return true;
+				}else {
+					temParent.rChild = temp.rChild;
+					return true;
+				}
+			}
+		}
 	}
 
 	boolean search(int num) {//num 값을 binary search tree에서 검색

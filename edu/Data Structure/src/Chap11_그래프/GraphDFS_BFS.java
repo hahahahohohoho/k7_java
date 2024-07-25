@@ -1,18 +1,20 @@
 package Chap11_그래프;
 
+
 /*
- Graph Representation
- Adjacency Lists + BFS + DFS
+소스코드 6.1: Graph Representation
+//6.1 Adjacency Lists + BFS + DFS
 */
-/*
+
 import java.util.Scanner;
 
 class ListNode {
 	int data;
+	int weight;
 	ListNode link;
 
-	public ListNode(int data) {
-		this.data = data;
+	public ListNode(int data, int weight) {
+		this.data = data; this.weight = weight;
 		link = null;
 	}
 }
@@ -22,11 +24,13 @@ class List {
 		first = null;
 	}
 	ListNode first;
-	void Insert(int k) {//같은 값을 체크하지 않아 중복 입력됨
-		// 구현할 부분
+	void Insert(int k, int w) {//같은 값을 체크하지 않아 중복 입력됨
+		ListNode newnode = new ListNode(k, w);
+
 	}
 	void Delete(int k) {
-		// 구현할 부분
+		ListNode previous = null;
+
 	}
 }
 
@@ -99,11 +103,14 @@ class Queue {
 	}
 
 	void Insert(int y) {
-		// 구현할 부분
+		QueueNode temp = new QueueNode(y, null);
+
 	}
 
 	int Delete()
-	// 구현할 부분
+	// delete the first node in queue and return its data
+	{
+
 	}
 }
 class StackNode {
@@ -134,23 +141,30 @@ class Stack {
 	}
 
 	void Insert(ListNode y) {
-		// 구현할 부분
+		StackNode temp = new StackNode(y, null);
+
 	}
 
 	ListNode Delete()
 	// delete the top node in stack and return its data
 	{
-		// 구현할 부분
+
 	}
 }
 
 
 class Graph {
-	private List[] HeadNodes;
-	int n;
-	boolean[] visited;
+	List[] HeadNodes; // 각 노드에 대한 adjacency list
+	int n; //노드 갯수
+	boolean[] visited; // 과거 노드 방문 여부
 
 	public Graph(int vertices) {
+		/* new 생성자로 객체 만들기 == for문 돌면서 i에 array넣기
+		1. int[][]a = new int[3][];
+        2. for (int i = 0; i < 3; i++) {
+            a[i] = new int[5];
+        }
+		*/
 		n = vertices;
 		HeadNodes = new List[n];
 		visited = new boolean[n];
@@ -158,82 +172,75 @@ class Graph {
 			HeadNodes[i] = new List();
 			visited[i] = false;
 		}
-		
-	}
 
+	}
+	int FindMaxVertex() {
+		return n;
+	}
 	void displayAdjacencyLists() {
-		for (int i = 0; i < n; i++) {
-			// 구현할 부분
-		}
+
 	}
 
-	void InsertVertex(int start, int end) {
+	void InsertVertex(int start, int end, int weight) {
 		if (start < 0 || start >= n || end < 0 || end >= n) {
 			System.out.println("the start node number is out of bound.");
 			return;
 		}
 
-		// 구현할 부분
 	}
 
 	void BFS(int v) {
-		boolean[] visited = new boolean[n]; // visited is declared as a Boolean 
+		boolean[] visited = new boolean[n]; // visited is declared as a Boolean
 		for (int i = 0; i < n; i++)
 			visited[i] = false; // initially, no vertices have been visited
-		// 구현할 부분
+
+
 	}
 	void ShowList(List l) {
 		ListIterator li = new ListIterator(l);
-		// 구현할 부분
+
 	}
 
-	// Driver
-	void DFS(int v) {
+	// Driver // - main()에서 호출되는 함수를 Driver라고 한다
+	void DFS(int v) { // - main()에서 호출되는 함수를 Driver라고 한다
 		for (int i = 0; i < n; i++)
 			visited[i] = false; // initially, no vertices have been visited
 
-		//_DFS(v); // start search at vertex 0
+		_DFS(v); // start search at vertex 0
 		_NonRecursiveDFS(v);
 
 	}
 
 	// Workhorse
-	void _DFS(int v)
-	// visit all previously unvisited vertices that are reachable from vertex v
-	{
+	void _DFS(int v) { // visit all previously unvisited vertices that are reachable from vertex v
 		visited[v] = true;
-		System.out.println(v + ", ");
-		ListIterator li = new ListIterator(HeadNodes[v]);
-		if (!li.NotNull())
-			return;
-		int w = li.First();
-		while (true) {
-			if (!visited[w])
-				_DFS(w);
-			if (li.NotNull())
-				w = li.Next();
-			else
-				return;
-		}
+		// 구현 - C++로 작성된 알고리즘을 사용하여 자바 버젼으로 구현
 	}
 	// Workhorse 2
 		void _NonRecursiveDFS(int v)
 		// visit all previously unvisited vertices that are reachable from vertex v
 		{
-			// 구현할 부분
-			
+			visited[v] = true;
+			int w = -1;
+
 		}
 }
-public class Chap11_test_그래프DFS_BFS {
+//void _NonRecursiveDFS(int v) 구현을 listiterator를 사용한 버젼 만들기
+class InputGraph {
+	int start;
+	int end;
+	public InputGraph(int start, int end) {
+		this.start = start;
+		this.end = end;
+	}
+}
+public class GraphDFS_BFS {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int select = 10, n, startEdge = -1, endEdge = -1;
-		int startBFSNode = 100;// the start node to BFS
+		int startBFSNode = 0;// the start node to BFS
 
-		System.out.println("vertex 숫자 입력: ");
-
-		n = sc.nextInt();
-
+		n = 8; // 그래프의 노드 갯수
 		Graph g = new Graph(n);
 
 		while (select != '0') {
@@ -241,20 +248,15 @@ public class Chap11_test_그래프DFS_BFS {
 			select = sc.nextInt();
 			switch (select) {
 			case 1:
-				System.out.println("edge 추가: from vertext: ");
-				startEdge = sc.nextInt();
-				System.out.println("to vertex: ");
-				endEdge = sc.nextInt();
-				if (startEdge < 0 || startEdge >= n || endEdge < 0 || endEdge >= n) {
-					System.out.println("the input node is out of bound.");
-					break;
+				InputGraph []inputData = 	{new InputGraph(0,1), new InputGraph(0,2),new InputGraph(1,3),
+						new InputGraph(1,4),new InputGraph(2,5),new InputGraph(2,6),
+						new InputGraph(3,7),new InputGraph(4,7),new InputGraph(5,7),new InputGraph(6,7)};
+				for (int i = 0; i < inputData.length;i++) {
+					startEdge = inputData[i].start;
+					endEdge = inputData[i].end;
+					g.InsertVertex(startEdge, endEdge, 10);
 				}
-				// get smallest start node.
-				if (startEdge < startBFSNode)
-					startBFSNode = startEdge;
-				if (endEdge < startBFSNode)
-					startBFSNode = endEdge;
-				g.InsertVertex(startEdge, endEdge);
+
 				break;
 			case 2:
 				// display
@@ -277,8 +279,9 @@ public class Chap11_test_그래프DFS_BFS {
 				break;
 			}
 		}
-
 		return;
+
 	}
 }
+
 */
